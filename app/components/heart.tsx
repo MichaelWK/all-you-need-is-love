@@ -1,12 +1,22 @@
 "use client";
 
+import { useState } from "react";
 import { useCoordinates } from "../hooks/useCoordinates";
 import { useStorage } from "../hooks/useStorage";
 import { HeartState } from "../types/common";
 
 export const Heart = () => {
+  const [lonelyHeart, setLonelyHeart] = useState<HeartState | null>(null);
+
+  const onChange = (heartState: HeartState | null) => {
+    if (heartState && !heartState.isConnected) {
+      console.log("Received value from storage:", heartState);
+      setLonelyHeart(heartState);
+    }
+  };
+
   const [x, y] = useCoordinates();
-  const [getStorageValue, setStorageValue, lonelyHeart] = useStorage<HeartState>("heartCoordinates");
+  const [getStorageValue, setStorageValue] = useStorage<HeartState>("heartCoordinates", onChange);
 
   return (
     <>
