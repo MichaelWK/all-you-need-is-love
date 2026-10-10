@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
+import { Window } from "../types/common";
 
 export const useCoordinates = () => {
-  const [x, setX] = useState<number>(0);
-  const [y, setY] = useState<number>(0);
+  const [point, setPoint] = useState<Window | null>(null);
+
   useEffect(() => {
     const updateCoordinates = () => {
-      setX(Math.round(window.outerWidth / 2) + window.screenX);
-      setY(Math.round(window.outerHeight / 2) + window.screenY);
+      setPoint({
+        x: window.screenX,
+        y: window.screenY,
+        width: window.outerWidth,
+        height: window.outerHeight,
+      });
     };
 
     window.addEventListener("resize", updateCoordinates);
@@ -17,5 +22,5 @@ export const useCoordinates = () => {
       window.clearInterval(intervalId);
     };
   }, []);
-  return [x, y] as const;
+  return [point] as const;
 };

@@ -1,9 +1,11 @@
-export type Point = {
+export type Window = {
   x: number;
   y: number;
+  width: number;
+  height: number;
 };
 
 export type HeartState = {
-  coordinates: Point;
+  window: Window;
   isConnected: boolean;
 };
